@@ -3,7 +3,7 @@
 //part two
 
 var flyingSaucer;
-var cow;
+var cowManager;
 
 function FlyingSaucer(x,y)
 {
@@ -21,6 +21,8 @@ function FlyingSaucer(x,y)
     var num_lights = floor(random(5,25));
     var light_inc = floor(random(5,10));
     var brightnesses = [];
+
+    var self = this;
     
     
     ///////////methods/////////////
@@ -45,7 +47,7 @@ function FlyingSaucer(x,y)
     {
         if(this.beamOn)
         {
-            this.beam();
+            beam();
         }
         
         
@@ -98,16 +100,16 @@ function FlyingSaucer(x,y)
         }
     }   
 
-    this.beam = function()
+    var beam = function()
     {
         if(random() > 0.25)
         {
             fill(255,255,100,150);
             beginShape();
-            vertex(this.x - 25,this.y + fs_height * base_height * 0.5);
-            vertex(this.x + 25,this.y + fs_height * base_height * 0.5);
-            vertex(this.x + 70,height - 100);
-            vertex(this.x - 70,height - 100);
+            vertex(self.x - 25,self.y + fs_height * base_height * 0.5);
+            vertex(self.x + 25,self.y + fs_height * base_height * 0.5);
+            vertex(self.x + 70,height - 100);
+            vertex(self.x - 70,height - 100);
             endShape();
         }
     }
@@ -194,7 +196,7 @@ function setup()
     noStroke();
     
     flyingSaucer = new FlyingSaucer(width/2,100);
-    cow = new Cow(width/2, height - 100);
+    cowManager = new CowManager();
 
 }
 
@@ -207,8 +209,8 @@ function draw()
     rect(0,height - 100, width, 100);
     
 
-    cow.walk();
-    cow.draw();
+    cowManager.update();
+    cowManager.draw();
     
     flyingSaucer.hover();
     flyingSaucer.draw();
@@ -216,3 +218,45 @@ function draw()
 
 }
 
+function CowManager()
+{
+    this.minCows = 10;
+
+    var cows = [];
+
+    this.update = function()
+    {
+        if(cows.length < this.minCows)
+        {
+            if(random() < 0.5)
+            {
+                cows.push(new Cow(-200, height - 100));
+            }
+            else
+            {
+                cows.push(new Cow(width + 200, height - 100));
+            }
+        }
+        for(var i = 0; i < cows.length; i++)
+        {
+            cows[i].walk();
+
+            if(cows[i].x > width + 200)
+            {
+                cows[i].x = -200;
+            }
+            else if(cows[i].x < -200)
+            {
+                cows[i].x = width + 200;
+            }
+        }
+    }
+
+    this.draw = function()
+    {
+        for(var i = 0; i < cows.length; i++)
+        {
+            cows[i].draw();
+        }
+    }
+}
