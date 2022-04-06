@@ -2,8 +2,8 @@
 //Object orientation revisted
 //part two
 
-var flyingSaucer;
 var cowManager;
+var flyingSaucers;
 
 function FlyingSaucer(x,y)
 {
@@ -98,7 +98,13 @@ function FlyingSaucer(x,y)
                 brightnesses[i] = 100;
             }
         }
-    }   
+    }  
+    
+    this.getBeamBoundaries = function()
+    {
+        var b = [self.x - 70, self.x + 70];
+        return b;
+    }
 
     var beam = function()
     {
@@ -130,6 +136,8 @@ function Cow(x,y)
     this.x = x;
     this.y = y;
     this.direction = random(1,2);
+    this.frozen = false;
+    this.flagForDeletion = false;
     
     //private
     var step = 0;
@@ -195,7 +203,10 @@ function setup()
     createCanvas(1200,600);
     noStroke();
     
-    flyingSaucer = new FlyingSaucer(width/2,100);
+    flyingSaucers = [];
+
+    flyingSaucers.push(new FlyingSaucer(200, 100));
+    flyingSaucers.push(new FlyingSaucer(800, 200));
     cowManager = new CowManager();
 
 }
@@ -211,10 +222,18 @@ function draw()
 
     cowManager.update();
     cowManager.draw();
-    
-    flyingSaucer.hover();
-    flyingSaucer.draw();
-    
+
+    for(var i = 0; i < flyingSaucers.length; i++)
+    {
+        flyingSaucers[i].hover();
+        flyingSaucers[i].draw();
+        
+        if(flyingSaucers[i].beamOn)
+        {
+            var b = flyingSaucers[i].getBeamBoundaries();
+            cowManager.levitateCows(b, flyingSaucers[i].x, flyingSaucers[i].y);
+        }
+    }
 
 }
 
@@ -239,15 +258,32 @@ function CowManager()
         }
         for(var i = 0; i < cows.length; i++)
         {
-            cows[i].walk();
-
-            if(cows[i].x > width + 200)
+            if(cows[i].y < height - 100 && cows[i].frozen == false)
             {
-                cows[i].x = -200;
+                cows[i].y += 2;
             }
-            else if(cows[i].x < -200)
+            else
             {
-                cows[i].x = width + 200;
+                cows[i].walk();
+
+                if(cows[i].x > width + 200)
+                {
+                    cows[i].x = -200;
+                }
+                else if(cows[i].x < -200)
+                {
+                    cows[i].x = width + 200;
+                }
+            }
+
+            cows[i].frozen = false;
+        }
+
+        for(var i = cows.length - 1; i >= 0; i--)
+        {
+            if(cows[i].flagForDeletion)
+            {
+                cows.splice(i, 1);
             }
         }
     }
@@ -257,6 +293,22 @@ function CowManager()
         for(var i = 0; i < cows.length; i++)
         {
             cows[i].draw();
+        }
+    }
+    this.levitateCows = function(boundaries, x_anchor, y_cutoff)
+    {
+        for(var i = 0; i < cows.length; i++)
+        {
+            if(cows[i].x > boundaries[0] && cows[i].x < boundaries[1])
+            {
+                cows[i].y -=1;
+                cows[i].x = x_anchor;
+                cows[i].frozen = true;
+                if(cows[i].y < y_cutoff)
+                {
+                    cows[i].flagForDeletion = true;
+                }
+            }
         }
     }
 }
