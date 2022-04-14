@@ -19,6 +19,7 @@ for as long as possible.
 
 //variable to store the zombie horde
 var horde;
+var shovel;
 
 function setup() {
 	createCanvas(800, 600);
@@ -32,55 +33,22 @@ function setup() {
 function draw() {
 	background(77, 112, 107);
 	this.horde.drawZombies();
-
+	
 }
 
-//Constructor for the horde
-function Horde() {
-	//an array of zombies
-	this.zombies = [];
+// function shovel(x, y)
+// {
+// 	this.x = mouseX;
+// 	this.y = mouseY;
+// 	this.drawShovel = function(){
+// 		fill(150, 150, 150);
+// 		beginShape();
+// 		curveVertex(this.x - 20, this.y + 30);
+// 		curveVertex(this.x - 20, this.y - 30);
+// 		curveVertex(this.x + 20, this.y - 30);
+// 		curveVertex(this.x + 20, this.y + 30);
+// 		endShape();
+// 	}
+// }
 
-	//call each zombies drawing code and update it's location ready to be drawn again
-	this.drawZombies = function() {
-		for (var i = 0; i < this.zombies.length; i++) {
-			this.zombies[i].draw();
-			this.zombies[i].updateLocation();
-		}
-	}
 
-	//add n zombies to the horde
-	this.addZombies = function(n) {
-		for (var i = 0; i < n; i++) {
-			this.zombies.push(new zombie(random(20, height - 50)))
-		}
-	}
-}
-
-//constructor for the Zombies
-function zombie(y) {
-	//initial x so all zombies start to the left of the screen
-	this.x = -10;
-	this.y = y;
-	//set a random speed
-	this.speed = random(0.2, 0.5);
-
-	//draw the zombie to the screen
-	this.draw = function() {
-		push();
-		//arms
-		fill(128, 0, 128);
-		rect(this.x - 10, this.y - 50, 65, 15);
-		rect(this.x - 10, this.y + 35, 65, 15);
-		//shoulders
-		rect(this.x - 20, this.y - 50, 35, 100, 10);
-		//head
-		fill(50);
-		ellipse(this.x, this.y, 50);
-		pop();
-	}
-
-	//update the zombies x location as it lumbers across the screen
-	this.updateLocation = function() {
-		this.x += this.speed;
-	}
-}
