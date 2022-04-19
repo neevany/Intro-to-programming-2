@@ -1,5 +1,6 @@
 function LineToTool(){
-	// Tool is drawing a straight line from the point where mouse was pressed to the point where mouse is released. 
+	// Tool is drawing a straight line from the point where mouse was pressed to the point where mouse is released.
+	// Allows to preview the line to a current mouse position before drawing the line.
 	// While mouse is pressed, the function loads the pixel data and displays a flexible line from the start point to the cursor.
 	// Once mouse is released, line is drawn from the start point to the point where mouse was released. 
 	
