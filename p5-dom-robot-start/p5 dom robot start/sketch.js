@@ -1,17 +1,43 @@
 var myRobot;
+var transmitButton;
+var rotationSlider;
+var nameText;
+var colourSelect;
 
 function setup() {
 	// put setup code here
 	createCanvas(500, 500);
 	myRobot = new Robot("grey", false, "marvin", 0);
+	angleMode(DEGREES);
+	var controlsDiv = select("#robotControls");
 
 	//add dom controls
+	transmitButton = createButton("transmit");
+	transmitButton.parent(controlsDiv);
+	
+	rotationSlider = createSlider(0, 360, 0);
+	rotationSlider.parent(controlsDiv);
+	
+	nameText = createInput("marvin");
+	nameText.parent(controlsDiv);
+	
+	colourSelect = createSelect();
+	
+	var colourOptions = ['grey', 'brown', 'red', 'green', 'yellow', 'purple'];
+	for(var i = 0; i < colourOptions.length; i++)
+	{
+		colourSelect.option(colourOptions[i]);
+	}
 
+	colourSelect.parent(controlsDiv);
 }
 
 function draw() {
 	// put drawing code here
 	background(50);
+	myRobot.colour = colourSelect.selected();
+	myRobot.rotation = rotationSlider.value();
+	myRobot.name = nameText.value();
 	myRobot.drawRobot();
 }
 
@@ -23,6 +49,7 @@ function Robot(colour, transmitting, name, rotation) {
 
 	this.drawRobot = function() {
 		translate(width / 2, height / 2);
+		rotate(this.rotation);
 		//robots head
 		fill(this.colour);
 		strokeWeight(4);
@@ -67,5 +94,12 @@ function Robot(colour, transmitting, name, rotation) {
 		vertex(50, 120);
 		vertex(75, 90);
 		endShape();
+
+		//robot name;
+		textAlign(CENTER);
+		textSize(48);
+		fill(0);
+		text(this.name, 0, 200);
 	}
+	
 }
