@@ -49,9 +49,9 @@ function setup() {
 		var l = lines[i]
 
 		shopStock.addStock(l.name, l.imageFile, l.weight, l.price, l.quantity,
-			display);
+			{...display});
 		// display.x += display.width + 30;
-		display.x = display.width + 30;
+		display.x += display.width + 60;
 	}
 
 	//create a basket
@@ -91,7 +91,7 @@ function draw() {
 //check for mouse clicks
 function mousePressed() {
 	//call the check click function in the stock object
-	var clickedBar = shopStock.checkClick(mouseX, mouseY);
+	var clickedBar = this.shopStock.checkClick(mouseX, mouseY);
 	//if a chocolate bar is returned there is stock and we can add it to the basket
 	if (clickedBar != null && shopStock.reduceStock(clickedBar)) {
 		basket.addItem(clickedBar);
@@ -119,11 +119,7 @@ function Stock() {
 
 	//return a particular chocolate bar and stock level from the array by index
 	this.getLine = function(i) {
-		for(var i = 0; i < this.stock.length; i++)
-		{
-			return this.stock[i];
-		}
-		
+			return this.stock[i];		
 	}
 
 	//check if any of the bars have been clicked. If a bar has been clicked
@@ -176,7 +172,7 @@ function ChocolateBar(name, imageFile, weight, price, display) {
 	this.draw = function() {
 		image(this.image, this.display.x, this.display.y, this.display.width,
 			this.display.height);
-		var pricePer100g = price / weight * 100;
+		var pricePer100g = round(price / weight * 100, 2);
 		var priceString = "£" + price + "p ( £" + pricePer100g +
 			"p per 100 grams)";
 		textAlign(CENTER);
