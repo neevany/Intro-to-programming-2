@@ -60,6 +60,12 @@ function ControlsAndInput(){
 	this.menu = function(){
 		//draw out menu items for each visualisation
 		//???
+
+		// Code below doesn't work.
+		// var vis_array = vis.getArray();
+		// for(var i = 0; i < vis.length; i++){
+		// 	print(vis_array[i]);
+		// }
 	};
 }
 
