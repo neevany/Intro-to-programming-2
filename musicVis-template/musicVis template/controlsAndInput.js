@@ -63,9 +63,12 @@ function ControlsAndInput(){
 
 		// Code below doesn't work.
 		// var vis_array = vis.getArray();
-		// for(var i = 0; i < vis.length; i++){
-		// 	print(vis_array[i]);
-		// }
+		
+		//doesn't work
+		for(var i = 0; i < vis.length; i++){
+			text([i+1] + ": " + vis.visuals[i].name, 100, 75 * i + 100);
+		}
+	
 	};
 }
 
