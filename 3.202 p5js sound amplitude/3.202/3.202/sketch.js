@@ -7,6 +7,8 @@
 
 var sample;
 var isReady;
+var amplitude;
+var amplitudes;
 
 function preload()
 {
@@ -18,6 +20,10 @@ function preload()
     sample = loadSound('assets/parsRadio_loop.mp3', soundInit);
     sample.setVolume(0.5);
     
+    amplitudes = [];
+    for(var i = 0; i < 512; i++){
+        amplitudes.push(0);
+    }
     
 }
 
@@ -33,7 +39,7 @@ function setup()
     textAlign(CENTER);
     textSize(32);
 
-
+    amplitude = new p5.Amplitude();
 }
 
 function draw()
@@ -48,8 +54,21 @@ function draw()
     }
     else if(sample.isPlaying())
     {
+        var a = amplitude.getLevel();
+        amplitudes.push(a);
+        amplitudes.shift();
+        text(a, width/2, 32);
+        var d = map(a, 0, 0.15, 50, 250);
+        ellipse(width/2, height/2, d);
         
-        
+        noFill();
+        stroke(255, 0, 0);
+        beginShape();
+        for(var i = 0; i < amplitudes.length; i++){
+            var h = map(amplitudes[i], 0, 0.15, 0, -150);
+            vertex(i * 2, height/2 + h);
+        }
+        endShape();
     }
 }
 
