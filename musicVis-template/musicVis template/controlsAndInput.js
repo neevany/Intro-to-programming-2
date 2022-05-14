@@ -19,7 +19,7 @@ function ControlsAndInput(){
 			
 			fullscreen(false);	
 		}
-		playbackButton.hitCheck() = true;
+		
 		
 	};
 
@@ -61,12 +61,8 @@ function ControlsAndInput(){
 		//draw out menu items for each visualisation
 		//???
 
-		// Code below doesn't work.
-		// var vis_array = vis.getArray();
-		
-		//doesn't work
-		for(var i = 0; i < vis.length; i++){
-			text([i+1] + ": " + vis.visuals[i].name, 100, 75 * i + 100);
+		for(var i = 0; i < vis.visuals.length; i++){
+			text(i + 1 + ": " + vis.visuals[i].name, 100, 50 * (i+2));
 		}
 	
 	};
