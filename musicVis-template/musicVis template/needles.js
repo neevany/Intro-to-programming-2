@@ -42,17 +42,22 @@ function Needles() {
 				var w = ??
 				var h = ??
 				*/
+				var x = (j + 1) * (this.pad / (this.plotsAcross + 1)) + j * this.plotWidth;
+                var y = (i + 1) * (this.pad / (this.plotsDown + 1)) + i * this.plotHeight;
+                var w = this.plotWidth;
+                var h = this.plotHeight;
 				//draw a rectangle at that location and size
 				rect(x, y, w, h);
 
 				//add on the ticks
 				// ??
+				this.ticks((x + w / 2), (y + h), this.frequencyBins[currentBin]);
 
 				var energy = fourier.getEnergy(this.frequencyBins[currentBin]);
 
 				//add the needle
 				// ??
-
+				this.needle(energy, (x + w / 2), (y + h));
 				currentBin++;
 			}
 		}
