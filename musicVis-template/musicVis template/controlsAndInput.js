@@ -12,14 +12,9 @@ function ControlsAndInput(){
 		//???
 		//check if the playback button has been clicked
 		//if not make the visualisation fullscreen
-		if(this.playbackButton.hitCheck() == false){
-			fullscreen(true);
+		if(!this.playbackButton.hitCheck()){
+			fullscreen(!fullscreen());
 		}
-		else{
-			
-			fullscreen(false);	
-		}
-		
 		
 	};
 
