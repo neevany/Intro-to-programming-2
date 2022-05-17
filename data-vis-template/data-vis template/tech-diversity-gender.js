@@ -87,6 +87,9 @@ function TechDiversityGender() {
         // 'name': ???
         // 'female': ???
         // 'male': ???
+        'name': int(getString(1+i, 0)),
+        'female': int(getNum(i, 1)),
+        'male': int((getNum(1+i, 2)))
       };
 
       // Draw the company name in the left margin.
@@ -106,6 +109,11 @@ function TechDiversityGender() {
 
       // Draw male employees rectangle.
       // ???
+      fill(this.maleColour);
+      rect(this.layout.leftMargin,
+           lineY,
+           this.mapPercentToWidth(company.male),
+           lineHeight - this.layout.pad);
     }
 
     // Draw 50% line
