@@ -87,9 +87,9 @@ function TechDiversityGender() {
         // 'name': ???
         // 'female': ???
         // 'male': ???
-        'name': int(getString(1+i, 0)),
-        'female': int(getNum(i, 1)),
-        'male': int((getNum(1+i, 2)))
+        'name': this.data.getString("company"),
+        'female': this.data.getNum("female"),
+        'male': this.data.getNum("male")
       };
 
       // Draw the company name in the left margin.
